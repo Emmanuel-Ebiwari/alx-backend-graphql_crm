@@ -1,0 +1,10 @@
+# .gitignore
+**/.env
+venv/
+__pycache__/
+*.pyc
+# *.log
+
+# VS Code settings
+.vscode/
+db.sqlite3%     
