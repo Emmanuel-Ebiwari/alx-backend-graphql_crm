@@ -1,12 +1,16 @@
 #!/bin/bash
 
-# Set working directory to the script's directory
+# Get current working directory
+cwd=$(pwd)
+echo "Current working directory is: $cwd"
+
+# Set working directory to project root relative to script location
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 cd "$PROJECT_DIR" || exit 1
 
-# Check if venv python exists before running
+# Run cleanup logic
 if [ -x "$PROJECT_DIR/venv/bin/python" ]; then
     TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
 
