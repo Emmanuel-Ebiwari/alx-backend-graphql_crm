@@ -19,17 +19,17 @@ class Query(graphene.ObjectType):
 class CustomerType(DjangoObjectType):
     class Meta:
         model = Customer
-        fields = "__all__"
+        fields = ("customer_id", "name", "email", "phone")
 
 class ProductType(DjangoObjectType):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = ("product_id", "name", "price", "stock")
 
 class OrderType(DjangoObjectType):
     class Meta:
         model = Order
-        fields = "__all__"
+        fields = ("order_id", "customer", "products", "total_amount", "order_date")
 
 class CustomerInput(graphene.InputObjectType):
     name = graphene.String(required=True)
