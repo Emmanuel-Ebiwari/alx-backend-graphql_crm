@@ -1,7 +1,16 @@
 #!/bin/bash
-PROJECT_DIR="/mnt/c/Users/MR. EMMANUEL/Desktop/alx-backend-graphql_crm"
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-DELETED_COUNT=$("$PROJECT_DIR/venv/bin/python" "$PROJECT_DIR/manage.py" shell -c "
+
+# Set working directory to the script's directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+cd "$PROJECT_DIR" || exit 1
+
+# Check if venv python exists before running
+if [ -x "$PROJECT_DIR/venv/bin/python" ]; then
+    TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+
+    DELETED_COUNT=$("$PROJECT_DIR/venv/bin/python" manage.py shell -c "
 from crm.models import Customer
 from django.utils import timezone
 from datetime import timedelta
@@ -12,4 +21,7 @@ inactive_customers.delete()
 print(count)
 ")
 
-echo "$TIMESTAMP - Deleted $DELETED_COUNT inactive customers" >> /tmp/customer_cleanup_log.txt
+    echo "$TIMESTAMP - Deleted $DELETED_COUNT inactive customers" >> /tmp/customer_cleanup_log.txt
+else
+    echo "Python environment not found!" >&2
+fi
